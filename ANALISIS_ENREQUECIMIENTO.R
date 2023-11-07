@@ -170,7 +170,8 @@ print(matriz_2x2_prueba)
 #Realizar prueba Fisher y ji-cuadrada 
 resultado_fisher <- fisher.test(matriz_2x2_prueba)
 resultado_jicuadrada <- chisq.test(matriz_2x2_prueba)
-
+# Realizar prueba de proporciones
+prop_prueba <- prop.test(matriz_2x2_prueba)
 
 ######################################################################################################################################################
 #OBTENER TABLA DE LOS NUMEROS MARGINALES 
