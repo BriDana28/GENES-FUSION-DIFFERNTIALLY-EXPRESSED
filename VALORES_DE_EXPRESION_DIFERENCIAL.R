@@ -126,9 +126,10 @@ colors <- colorRampPalette(c("blue", "white", "red"))(50)
 
 # Crear el heatmap usando la función pheatmap()
 pheatmap(expression_matrix,
-         cluster_mat(mat, distance = clustering_distance_rows, method = "ward.D"),  
          color = colors,
          scale = "row",
+         clustering_distance_rows = "euclidean",  # Puedes ajustar el método de distancia
+         clustering_method = "ward.D",  # Puedes ajustar el método de clustering
          labels_row = gene_labels,  # Etiquetas de filas
          labels_col = c(rep("Tumor", ncol(tumor_data)), rep("Normal", ncol(normal_data))),  # Etiquetas de columnas
          main = "Heatmap Comparando Tumor vs Normal")
