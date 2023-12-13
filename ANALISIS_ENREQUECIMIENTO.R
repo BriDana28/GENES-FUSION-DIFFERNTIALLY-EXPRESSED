@@ -8,6 +8,7 @@ library(openxlsx)
 library(AnnotationDbi)
 library(org.Hs.eg.db)
 library(data.table)
+library(dlpyr)
 
 # Cargar base de datos de fusion del TumorFusionPortal
 data <- read_excel("C:/Users/brida/Documents/SERVICIO SOCIAL/nar-02671-data-e-2017-File007.xlsx") 
@@ -15,14 +16,12 @@ data <- read_excel("C:/Users/brida/Documents/SERVICIO SOCIAL/nar-02671-data-e-20
 #Filtro de tumores BRCA en el documento de TumorFusionPortal
 tumores_BRCA <- subset(data, `Tissue` == "BRCA")
 
-#Filtro de tumores BRCA en dos categorías 
-tumores_BRCA_10 <- tumores_BRCA %>%
-  mutate(sum_reads = `Discordant Read Pairs` + `Junction Spanning Reads` ) %>%
-  filter(sum_reads > 10)
+# Calcular la columna sum_reads
+tumores_BRCA$sum_reads <- tumores_BRCA$`Discordant Read Pairs` + tumores_BRCA$`Junction Spanning Reads`
 
-tumores_BRCA_50 <- tumores_BRCA %>%
-  mutate(sum_reads = `Discordant Read Pairs` + `Junction Spanning Reads` ) %>%
-  filter(sum_reads > 50)
+# Filtro de tumores BRCA en dos categorías 
+tumores_BRCA_10 <- subset(tumores_BRCA, sum_reads > 10)
+tumores_BRCA_50 <- subset(tumores_BRCA, sum_reads > 50)
 
 # Crear histograma 
 hist(tumores_BRCA$sum_reads, xlim = c(1, 500), breaks = 500)
